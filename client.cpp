@@ -1,14 +1,15 @@
 #include <iostream>
-#include "Otimizacao.h"
-#include "Populacao.h"
+
+#include "Otimizacao.hpp"
+#include "Populacao.hpp"
 
 using namespace std;
 
 // Definição do intervalo [X0, X1] e [Y0, Y1]
-int X0 = -15;
-int X1 =  15;
-int Y0 = -15;
-int Y1 =  15;
+const int X0 = -15;
+const int X1 =  15;
+const int Y0 = -15;
+const int Y1 =  15;
 
 
 // Função 10 -> Z = (2 * (pow(x, 2))) - (13 * x) + (x * y) - (7 * (y / 3))

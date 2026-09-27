@@ -1,4 +1,4 @@
-#include "Otimizacao.h"
+#include "Otimizacao.hpp"
 
 Individuo::Individuo(codificacao x, codificacao y, codificacao z) :
     _x(x), _y(y), _z(z), _fitness(0.0) {}
