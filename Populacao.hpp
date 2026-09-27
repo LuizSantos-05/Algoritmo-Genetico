@@ -4,9 +4,9 @@
 
 class Populacao {
 private:
-    int _tamanho;
-    vector<Individuo> _individuos;
+    int _tamanho;                       // tamanho da população
+    vector<Individuo> _individuos;      // vetor de indivíduos
 public:
-    Populacao(int tamanho);
-    void inicializarPopulacao();
+    Populacao(int tamanho);             // construtor da população
+    void inicializarPopulacao();        // inclui os individuos no vetor da população
 };
