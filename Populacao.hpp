@@ -2,11 +2,14 @@
 
 #include "Otimizacao.hpp"
 
-class Populacao {
+class Populacao
+{
 private:
-    int _tamanho;                       // tamanho da população
-    vector<Individuo> _individuos;      // vetor de indivíduos
+    int _tamanho;                  // tamanho da população
+    vector<Individuo> _individuos; // vetor de indivíduos
 public:
-    Populacao(int tamanho);             // construtor da população
-    void inicializarPopulacao();        // inclui os individuos no vetor da população
+    Populacao(int tamanho);      // construtor da população
+    ~Populacao();                // destrutor da população
+    void inicializarPopulacao(); // inclui os individuos no vetor da população
+    void novaGeracao();          // gera uma nova geração de indivíduos
 };
