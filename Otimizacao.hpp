@@ -7,7 +7,7 @@
 
 using namespace std;
 
-typedef double codificacao;     // tipo de codificação do indivíduo
+typedef double codificacao;     // tipo de codificacao do individuo
 
 class Individuo {
 private:
@@ -15,10 +15,10 @@ private:
     codificacao _x;
     codificacao _y;
     codificacao _z;
-    // fitness do indivíduo
+    // fitness do individuo
     double _fitness;
 public:
-    Individuo(codificacao x, codificacao y, codificacao z); // construtor do indivíduo
+    Individuo(codificacao x, codificacao y, codificacao z); // construtor do individuo
     
     // getters e setters
     codificacao getX() const;
@@ -27,13 +27,13 @@ public:
     double getFitness() const;
     void setFitness(double fitness);
 
-    // métodos para calcular o fitness, seleção, cruzamento e mutação
+    // metodos para calcular o fitness, selecao, cruzamento e mutacao
     double calcularFitness();
     void selecao(int tamanhoPopulacao, vector<Individuo> &populacao);
     void cruzamento(const Individuo &paiX, Individuo &paiY);
     void sortearMutacao();
     void mutacao();
 
-    // método para seleção por roleta
+    // metodo para selecao por roleta
     Individuo selecaoRoleta();
 };
