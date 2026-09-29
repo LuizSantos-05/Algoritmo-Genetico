@@ -7,9 +7,10 @@
 
 using namespace std;
 
-typedef double codificacao;     // tipo de codificacao do individuo
+typedef double codificacao; // tipo de codificação do indivíduo
 
-class Individuo {
+class Individuo
+{
 private:
     // cromossomos
     codificacao _x;
@@ -17,9 +18,10 @@ private:
     codificacao _z;
     // fitness do individuo
     double _fitness;
+
 public:
-    Individuo(codificacao x, codificacao y, codificacao z); // construtor do individuo
-    
+    Individuo(); // construtor do indivíduo
+
     // getters e setters
     codificacao getX() const;
     codificacao getY() const;
