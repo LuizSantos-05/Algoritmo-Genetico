@@ -29,7 +29,7 @@ public:
 
     // métodos para calcular o fitness, seleção, cruzamento e mutação
     double calcularFitness();
-    void selecao();
+    void selecao(int tamanhoPopulacao, vector<Individuo> &populacao);
     void cruzamento(const Individuo &paiX, Individuo &paiY);
     void sortearMutacao();
     void mutacao();
