@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Populacao.hpp"
 #include <iostream>
 #include <random>
 #include <vector>
@@ -15,7 +16,6 @@ private:
     // cromossomos
     codificacao _x;
     codificacao _y;
-    codificacao _z;
     // fitness do individuo
     double _fitness;
 
@@ -26,17 +26,15 @@ public:
     // getters e setters
     codificacao getX() const;
     codificacao getY() const;
-    codificacao getZ() const;
+    codificacao setX(codificacao x);
+    codificacao setY(codificacao y);
     double getFitness() const;
     void setFitness(double fitness);
 
     // metodos para calcular o fitness, selecao, cruzamento e mutacao
-    double calcularFitness();
+    double calcularFitness(int x, int y);
     int selecao(int tamanhoPopulacao);
-    Individuo cruzamento(vector<Individuo> &populacao);
-    void sortearMutacao();
-    void mutacao();
-
-    // metodo para selecao por roleta
-    Individuo selecaoRoleta();
+    void cruzamento(vector<Individuo> &populacao);
+    bool sortearMutacao(int percentual);
+    void mutacao(int limite_inferior, int limite_superior, Populacao &populacao, Individuo &individuo);
 };

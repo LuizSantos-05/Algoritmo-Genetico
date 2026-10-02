@@ -4,11 +4,27 @@ Populacao::Populacao(int tamanho)
 {
     _tamanho = tamanho;
     _individuos.reserve(tamanho); // reserva espaço para os indivíduos
+    _elitismo = tamanho * 0.005;  // define a quantidade de indivíduos que serão mantidos na próxima geração (0,5% da população)
 }
 
 Populacao::~Populacao()
 {
     _individuos.clear(); // limpa o vetor de indivíduos
+}
+
+int Populacao::getTamanho() const
+{
+    return _tamanho;
+}
+
+int Populacao::getElitismo() const
+{
+    return _elitismo;
+}
+
+vector<Individuo> Populacao::getIndividuos() const
+{
+    return _individuos;
 }
 
 void Populacao::inicializarPopulacao()
