@@ -21,7 +21,7 @@ private:
 
 public:
     Individuo(); // construtor do indivíduo
-    Individuo(codificacao x, codificacao y, codificacao z); //construtor criado com os parametros
+    Individuo(codificacao x, codificacao y); //construtor criado com os parametros
 
     // getters e setters
     codificacao getX() const;
@@ -34,7 +34,8 @@ public:
     // metodos para calcular o fitness, selecao, cruzamento e mutacao
     double calcularFitness(int x, int y);
     int selecao(int tamanhoPopulacao);
-    void cruzamento(vector<Individuo> &populacao);
+    Individuo cruzamento(vector<Individuo> &populacao);
+    Individuo cruzamentoElitista(Populacao &populacao);
     bool sortearMutacao(int percentual);
     void mutacao(int limite_inferior, int limite_superior, Populacao &populacao, Individuo &individuo);
 };
