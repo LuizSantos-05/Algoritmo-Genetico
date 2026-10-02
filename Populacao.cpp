@@ -3,8 +3,9 @@
 Populacao::Populacao(int tamanho)
 {
     _tamanho = tamanho;
-    _individuos.reserve(tamanho); // reserva espaço para os indivíduos
-    _elitismo = tamanho * 0.005;  // define a quantidade de indivíduos que serão mantidos na próxima geração (0,5% da população)
+    _individuos.reserve(tamanho);          // reserva espaço para os indivíduos
+    _elitismo = tamanho * 0.005;           // define a quantidade de indivíduos que serão mantidos na próxima geração (0,5% da população)
+    _elitismoBool.resize(_elitismo, true); // inicializa o vetor de elitismo com valores true
 }
 
 Populacao::~Populacao()
@@ -20,6 +21,26 @@ int Populacao::getTamanho() const
 int Populacao::getElitismo() const
 {
     return _elitismo;
+}
+
+void Populacao::decrementarElitismo()
+{
+    if (_elitismo > 0)
+    {
+        _elitismo--;
+    }
+}
+
+void Populacao::decrementarElitismoBool()
+{
+    for (int i = 0; i < _elitismoBool.size(); i++)
+    {
+        if (_elitismoBool[i])
+        {
+            _elitismoBool[i] = false;
+            break;
+        }
+    }
 }
 
 vector<Individuo> Populacao::getIndividuos() const
@@ -48,4 +69,18 @@ void Populacao::novaGeracao()
         novaPopulacao.push_back(filho);
     }
     _individuos = novaPopulacao; // atualiza a população com a nova população
+}
+
+void Populacao::ordenarElitismo()
+{
+    for (int i = 0; i < _elitismo; i++)
+    {
+        for (int j = i + 1; j < _tamanho - 1; j++)
+        {
+            if (_individuos[i].getFitness() < _individuos[j].getFitness())
+            {
+                swap(_individuos[i], _individuos[j]);
+            }
+        }
+    }
 }

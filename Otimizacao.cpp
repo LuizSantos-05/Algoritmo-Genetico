@@ -34,7 +34,7 @@ int Individuo::selecao(int tamanhoPopulacao)
 }
 
 // modulo do cruzamento
-void Individuo::cruzamento(vector<Individuo> &populacao)
+Individuo Individuo::cruzamento(vector<Individuo> &populacao)
 {
     // aqui decretamos que o contador deve estar zerado e que o numero de pais e limitado a 2
     int contador = 0;
@@ -62,32 +62,113 @@ void Individuo::cruzamento(vector<Individuo> &populacao)
             }
         }
     }
-    
-    //identifica o melhor e o pior pai com base no fitness
+
+    // identifica o melhor e o pior pai com base no fitness
     Individuo paiX = populacao[pais[0]];
     Individuo paiY = populacao[pais[1]];
-    
+
     Individuo melhorPai = (paiX.getFitness() > paiY.getFitness()) ? paiX : paiY;
     Individuo piorPai = (paiX.getFitness() > paiY.getFitness()) ? paiY : paiX;
-    
-    //gera um fator r aleatorio dentro do intervalo de [0,1]
+
+    // gera um fator r aleatorio dentro do intervalo de [0,1]
     double r = (double)rand() / RAND_MAX;
 
-    //formula do cruzamento heuristico
+    // formula do cruzamento heuristico
     double novoX = melhorPai.getX() + r * (melhorPai.getX() - piorPai.getX());
     double novoY = melhorPai.getY() + r * (melhorPai.getY() - piorPai.getY());
 
-    //validar o intervalo da funcao 10
-    if (novoX > 15.0) novoX = 15.0;
-    if (novoX < -15.0) novoX = -15.0;
+    // validar o intervalo da funcao 10
+    if (novoX > 15.0)
+        novoX = 15.0;
+    if (novoX < -15.0)
+        novoX = -15.0;
 
-    if (novoY > 15.0) novoY = 15.0;
-    if (novoY < -15.0) novoY = -15.0;
+    if (novoY > 15.0)
+        novoY = 15.0;
+    if (novoY < -15.0)
+        novoY = -15.0;
 
-    //declaracao do individuo filho
-    Individuo filho(novoX, novoY, 0.0);
-    
+    // declaracao do individuo filho
+    Individuo filho(novoX, novoY);
+
     return filho;
+}
+
+Individuo Individuo::cruzamentoElitista(Populacao &populacao)
+{
+    populacao.ordenarElitismo(); // Ordena a população com base no fitness
+    int primeiroElitista = 0;    // Índice do melhor indivíduo da elite
+    for (int i = primeiroElitista; i < populacao.getElitismo(); i++)
+    {
+        if (populacao.getElitismoBool()[i]) // Verifica se o indivíduo ainda está na elite
+        {
+            primeiroElitista = i;
+            break;
+        }
+    }
+    if (populacao.getElitismo() % 2) // Se o valor de elitismo for ímpar, seleciona o último individuo da elite e aleatorisa o outro
+    {
+        int tamanhoPopulacao = populacao.getTamanho();
+        int aleatorio = rand() % (tamanhoPopulacao - populacao.getElitismo());
+        Individuo pai1 = populacao.getIndividuos()[primeiroElitista]; // Primeiro indivíduo da elite
+        Individuo pai2 = populacao.getIndividuos()[aleatorio];        // Indivíduo aleatório fora da elite
+
+        // Gera um fator r aleatório dentro do intervalo de [0,1]
+        double r = (double)rand() / RAND_MAX;
+
+        // Fórmula do cruzamento heurístico
+        double novoX = pai1.getX() + r * (pai1.getX() - pai2.getX());
+        double novoY = pai1.getY() + r * (pai1.getY() - pai2.getY());
+
+        // Valida o intervalo da função [-15, 15]
+        if (novoX > 15.0)
+            novoX = 15.0;
+        if (novoX < -15.0)
+            novoX = -15.0;
+
+        if (novoY > 15.0)
+            novoY = 15.0;
+        if (novoY < -15.0)
+            novoY = -15.0;
+
+        // Declaração do indivíduo filho
+        Individuo filho(novoX, novoY);
+
+        return filho;
+    }
+    else
+    {
+        // Se o valor de elitismo for par, seleciona os dois melhores indivíduos da elite
+        Individuo pai1 = populacao.getIndividuos()[primeiroElitista];     // Melhor indivíduo da elite
+        Individuo pai2 = populacao.getIndividuos()[primeiroElitista + 1]; // Segundo melhor indivíduo da elite
+
+        // Gera um fator r aleatório dentro do intervalo de [0,1]
+        double r = (double)rand() / RAND_MAX;
+
+        // Fórmula do cruzamento heurístico
+        double novoX = pai1.getX() + r * (pai1.getX() - pai2.getX());
+        double novoY = pai1.getY() + r * (pai1.getY() - pai2.getY());
+
+        // Valida o intervalo da função [-15, 15]
+        if (novoX > 15.0)
+            novoX = 15.0;
+        if (novoX < -15.0)
+            novoX = -15.0;
+
+        if (novoY > 15.0)
+            novoY = 15.0;
+        if (novoY < -15.0)
+            novoY = -15.0;
+
+        // Declaração do indivíduo filho
+        Individuo filho(novoX, novoY);
+        populacao.decrementarElitismoBool(); // Decrementa o valor de elitismo para a próxima geração
+        populacao.decrementarElitismo();     // Decrementa o valor de elitismo para a próxima geração
+        populacao.decrementarElitismoBool(); // Decrementa novamente para considerar os dois melhores indivíduos da elite
+        populacao.decrementarElitismo();     // Decrementa novamente para considerar os dois melhores indivíduos da elite
+
+        return filho;
+    }
 }
 
 bool Individuo::sortearMutacao(int percentual)
@@ -96,12 +177,11 @@ bool Individuo::sortearMutacao(int percentual)
     return aleatorio < percentual;
 }
 
-
 void Individuo::mutacao(int limite_inferior, int limite_superior, Populacao &populacao, Individuo &individuo)
 {
     int tamanhoPopulacao = populacao.getTamanho();
-    int sorteio = rand() % tamanhoPopulacao;            // Escolhe um indivíduo aleatório da população
+    int sorteio = rand() % tamanhoPopulacao;                           // Escolhe um indivíduo aleatório da população
     Individuo &individuoSorteado = populacao.getIndividuos()[sorteio]; // Referência ao indivíduo sorteado
 
-    int cromossomoSorteado = (rand() % 30) / 10; // Escolhe aleatoriamente qual cromossomo será mutado (0: x, 1: y, 2: z)   
+    int cromossomoSorteado = (rand() % 30) / 10; // Escolhe aleatoriamente qual cromossomo será mutado (0: x, 1: y, 2: z)
 }
