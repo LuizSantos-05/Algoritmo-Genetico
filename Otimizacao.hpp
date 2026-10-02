@@ -21,6 +21,7 @@ private:
 
 public:
     Individuo(); // construtor do indivíduo
+    Individuo(codificacao x, codificacao y, codificacao z); //construtor criado com os parametros
 
     // getters e setters
     codificacao getX() const;
@@ -31,8 +32,8 @@ public:
 
     // metodos para calcular o fitness, selecao, cruzamento e mutacao
     double calcularFitness();
-    void selecao(int tamanhoPopulacao, vector<Individuo> &populacao);
-    void cruzamento(const Individuo &paiX, Individuo &paiY);
+    int selecao(int tamanhoPopulacao);
+    Individuo cruzamento(vector<Individuo> &populacao);
     void sortearMutacao();
     void mutacao();
 
