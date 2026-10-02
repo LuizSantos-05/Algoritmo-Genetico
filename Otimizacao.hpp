@@ -21,6 +21,7 @@ private:
 
 public:
     Individuo(); // construtor do indivíduo
+    Individuo(codificacao x, codificacao y, codificacao z); //construtor criado com os parametros
 
     // getters e setters
     codificacao getX() const;

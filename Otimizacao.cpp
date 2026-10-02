@@ -62,6 +62,32 @@ void Individuo::cruzamento(vector<Individuo> &populacao)
             }
         }
     }
+    
+    //identifica o melhor e o pior pai com base no fitness
+    Individuo paiX = populacao[pais[0]];
+    Individuo paiY = populacao[pais[1]];
+    
+    Individuo melhorPai = (paiX.getFitness() > paiY.getFitness()) ? paiX : paiY;
+    Individuo piorPai = (paiX.getFitness() > paiY.getFitness()) ? paiY : paiX;
+    
+    //gera um fator r aleatorio dentro do intervalo de [0,1]
+    double r = (double)rand() / RAND_MAX;
+
+    //formula do cruzamento heuristico
+    double novoX = melhorPai.getX() + r * (melhorPai.getX() - piorPai.getX());
+    double novoY = melhorPai.getY() + r * (melhorPai.getY() - piorPai.getY());
+
+    //validar o intervalo da funcao 10
+    if (novoX > 15.0) novoX = 15.0;
+    if (novoX < -15.0) novoX = -15.0;
+
+    if (novoY > 15.0) novoY = 15.0;
+    if (novoY < -15.0) novoY = -15.0;
+
+    //declaracao do individuo filho
+    Individuo filho(novoX, novoY, 0.0);
+    
+    return filho;
 }
 
 bool Individuo::sortearMutacao(int percentual)
