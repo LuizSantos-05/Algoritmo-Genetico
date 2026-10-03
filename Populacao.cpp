@@ -72,6 +72,7 @@ void Populacao::novaGeracao(int numeroOperacao)
 {
     vector<Individuo> novaPopulacao;    // vetor de nova população
     int novoTamanho = _tamanho / 2;     // tamanho da nova população (metade da população atual)
+    _tamanho = novoTamanho;             // atualiza o tamanho da população
     novaPopulacao.reserve(novoTamanho); // reserva espaço para a nova população
 
     for (int i = 0; i < novoTamanho; i++)
@@ -103,4 +104,21 @@ void Populacao::ordenarElitismo()
             }
         }
     }
+}
+
+bool Populacao::avaliarMelhorPopulacao(const Populacao &populacao)
+{
+    const vector<Individuo> &individuos = populacao.getIndividuos();
+    for (const Individuo &individuo : individuos)
+    {
+        if (individuo.getFitness() == 905)
+        {
+            continue; // Este indivíduo é o melhor possível, avaliando o próximo indivíduo
+        }
+        else
+        {
+            return false; // Encontrou um indivíduo que não é o melhor possível
+        }
+    }
+    return true; // Todos os indivíduos são o melhor possível
 }
