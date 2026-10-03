@@ -1,4 +1,5 @@
 #include "Otimizacao.hpp"
+#include "Populacao.hpp"
 
 Individuo::Individuo()
 {
@@ -10,11 +11,20 @@ Individuo::Individuo()
     _fitness = calcularFitness(_x, _y);
 }
 
+Individuo::Individuo(codificacao x, codificacao y)
+{
+    _x = x;
+    _y = y;
+
+    // calcula o fitness do indivíduo
+    _fitness = calcularFitness(_x, _y);
+}
+
 codificacao Individuo::getX() const { return _x; }
 codificacao Individuo::getY() const { return _y; }
 
-codificacao Individuo::setX(codificacao x) { _x = x; }
-codificacao Individuo::setY(codificacao y) { _y = y; }
+void Individuo::setX(codificacao x) { _x = x; }
+void Individuo::setY(codificacao y) { _y = y; }
 
 double Individuo::getFitness() const { return _fitness; }
 void Individuo::setFitness(double fitness) { _fitness = fitness; }
@@ -74,8 +84,8 @@ Individuo Individuo::cruzamento(vector<Individuo> &populacao)
     double r = (double)rand() / RAND_MAX;
 
     // formula do cruzamento heuristico
-    double novoX = melhorPai.getX() + r * (melhorPai.getX() - piorPai.getX());
-    double novoY = melhorPai.getY() + r * (melhorPai.getY() - piorPai.getY());
+    codificacao novoX = melhorPai.getX() + r * (melhorPai.getX() - piorPai.getX());
+    codificacao novoY = melhorPai.getY() + r * (melhorPai.getY() - piorPai.getY());
 
     // validar o intervalo da funcao 10
     if (novoX > 15.0)
@@ -98,6 +108,7 @@ Individuo Individuo::cruzamentoElitista(Populacao &populacao)
 {
     populacao.ordenarElitismo(); // Ordena a população com base no fitness
     int primeiroElitista = 0;    // Índice do melhor indivíduo da elite
+
     for (int i = primeiroElitista; i < populacao.getElitismo(); i++)
     {
         if (populacao.getElitismoBool()[i]) // Verifica se o indivíduo ainda está na elite
@@ -106,6 +117,7 @@ Individuo Individuo::cruzamentoElitista(Populacao &populacao)
             break;
         }
     }
+
     if (populacao.getElitismo() % 2) // Se o valor de elitismo for ímpar, seleciona o último individuo da elite e aleatorisa o outro
     {
         int tamanhoPopulacao = populacao.getTamanho();
@@ -117,8 +129,8 @@ Individuo Individuo::cruzamentoElitista(Populacao &populacao)
         double r = (double)rand() / RAND_MAX;
 
         // Fórmula do cruzamento heurístico
-        double novoX = pai1.getX() + r * (pai1.getX() - pai2.getX());
-        double novoY = pai1.getY() + r * (pai1.getY() - pai2.getY());
+        codificacao novoX = pai1.getX() + r * (pai1.getX() - pai2.getX());
+        codificacao novoY = pai1.getY() + r * (pai1.getY() - pai2.getY());
 
         // Valida o intervalo da função [-15, 15]
         if (novoX > 15.0)
@@ -146,8 +158,8 @@ Individuo Individuo::cruzamentoElitista(Populacao &populacao)
         double r = (double)rand() / RAND_MAX;
 
         // Fórmula do cruzamento heurístico
-        double novoX = pai1.getX() + r * (pai1.getX() - pai2.getX());
-        double novoY = pai1.getY() + r * (pai1.getY() - pai2.getY());
+        codificacao novoX = pai1.getX() + r * (pai1.getX() - pai2.getX());
+        codificacao novoY = pai1.getY() + r * (pai1.getY() - pai2.getY());
 
         // Valida o intervalo da função [-15, 15]
         if (novoX > 15.0)
@@ -162,7 +174,7 @@ Individuo Individuo::cruzamentoElitista(Populacao &populacao)
 
         // Declaração do indivíduo filho
         Individuo filho(novoX, novoY);
-        
+
         for (int i = 0; i < 2; i++)
         {
             populacao.decrementarElitismoBool(); // Decrementa o valor de elitismo para a próxima geração

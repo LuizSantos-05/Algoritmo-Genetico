@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Otimizacao.hpp"
+#include <vector>
 
 class Populacao
 {
@@ -14,13 +15,14 @@ public:
     ~Populacao();           // destrutor da população
 
     int getTamanho() const;
-    int getElitismo() const;                 // retorna o tamanho da população
-    vector<bool> getElitismoBool() const;    // retorna a quantidade de indivíduos que serão mantidos na próxima geração
-    void decrementarElitismo();              // decrementa a quantidade de indivíduos que serão mantidos na próxima geração
-    void decrementarElitismoBool();          // decrementa a quantidade de indivíduos que serão mantidos na próxima geração
-    vector<Individuo> getIndividuos() const; // retorna o vetor de indivíduos
+    int getElitismo() const;                        // retorna o tamanho da população
+    vector<bool> getElitismoBool();                 // retorna a quantidade de indivíduos que serão mantidos na próxima geração
+    void decrementarElitismo();                     // decrementa a quantidade de indivíduos que serão mantidos na próxima geração
+    void decrementarElitismoBool();                 // decrementa a quantidade de indivíduos que serão mantidos na próxima geração
+    vector<Individuo> &getIndividuos();             // retorna o vetor de indivíduos
+    const vector<Individuo> &getIndividuos() const; // retorna o vetor de indivíduos (constante)
 
-    void inicializarPopulacao(); // inclui os individuos no vetor da população
-    void novaGeracao();          // gera uma nova geração de indivíduos
+    void inicializarPopulacao();          // inclui os individuos no vetor da população
+    void novaGeracao(int numeroOperacao); // gera uma nova geração de indivíduos
     void ordenarElitismo();
 };

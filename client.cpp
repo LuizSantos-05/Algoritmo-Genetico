@@ -60,7 +60,7 @@ int main()
         {
             criarCSV(arquivoCSV, populacao, i);
         }
-        populacao.novaGeracao();
+        populacao.novaGeracao(i);
     }
     return 0;
 }
