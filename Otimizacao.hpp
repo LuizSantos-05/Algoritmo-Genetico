@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Populacao.hpp"
 #include <iostream>
 #include <random>
 #include <vector>
@@ -10,6 +9,7 @@ using namespace std;
 
 typedef double codificacao; // tipo de codificação do indivíduo
 
+class Populacao; // declaração antecipada da classe Populacao
 class Individuo
 {
 private:
@@ -26,8 +26,8 @@ public:
     // getters e setters
     codificacao getX() const;
     codificacao getY() const;
-    codificacao setX(codificacao x);
-    codificacao setY(codificacao y);
+    void setX(codificacao x);
+    void setY(codificacao y);
     double getFitness() const;
     void setFitness(double fitness);
 

@@ -1,4 +1,5 @@
 #include "Populacao.hpp"
+#include "Otimizacao.hpp"
 
 Populacao::Populacao(int tamanho)
 {
@@ -23,6 +24,11 @@ int Populacao::getElitismo() const
     return _elitismo;
 }
 
+vector<bool> Populacao::getElitismoBool()
+{
+    return _elitismoBool;
+}
+
 void Populacao::decrementarElitismo()
 {
     if (_elitismo > 0)
@@ -43,7 +49,12 @@ void Populacao::decrementarElitismoBool()
     }
 }
 
-vector<Individuo> Populacao::getIndividuos() const
+vector<Individuo> &Populacao::getIndividuos()
+{
+    return _individuos;
+}
+
+const vector<Individuo> &Populacao::getIndividuos() const
 {
     return _individuos;
 }
@@ -57,7 +68,7 @@ void Populacao::inicializarPopulacao()
     }
 }
 
-void Populacao::novaGeracao()
+void Populacao::novaGeracao(int numeroOperacao)
 {
     vector<Individuo> novaPopulacao;    // vetor de nova população
     int novoTamanho = _tamanho / 2;     // tamanho da nova população (metade da população atual)
@@ -65,8 +76,17 @@ void Populacao::novaGeracao()
 
     for (int i = 0; i < novoTamanho; i++)
     {
-        Individuo filho; // cria um novo indivíduo
-        novaPopulacao.push_back(filho);
+        Individuo filho;
+        if (numeroOperacao < _elitismo)
+        {
+            // Se o valor de elitismo for ímpar, seleciona o melhor indivíduo da elite
+            filho = _individuos[i].cruzamentoElitista(*this); // realiza o cruzamento elitista entre os indivíduos da população
+        }
+        else
+        {
+            filho = _individuos[i].cruzamento(_individuos); // realiza o cruzamento entre os indivíduos da população
+        }
+        novaPopulacao.push_back(filho); // adiciona o indivíduo filho à nova população
     }
     _individuos = novaPopulacao; // atualiza a população com a nova população
 }
