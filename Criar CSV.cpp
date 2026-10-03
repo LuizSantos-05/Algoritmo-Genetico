@@ -5,31 +5,27 @@
 
 namespace
 {
-void escreverCabecalho(ofstream &arquivo)
-{
-	arquivo << "cromossomo_x,cromossomo_y,fitness,geracao\n";
-}
-
-void escreverPopulacao(ofstream &arquivo,
-					   const Populacao &populacao,
-					   int geracao)
-{
-	const vector<Individuo> individuos = populacao.getIndividuos();
-
-	for (const Individuo &individuo : individuos)
+	void escreverCabecalho(ofstream &arquivo)
 	{
-		arquivo << fixed << setprecision(3)
-				<< individuo.getX() << ','
-				<< individuo.getY() << ','
-				<< individuo.getFitness() << ','
-				<< geracao << '\n';
+		arquivo << "cromossomo_x,cromossomo_y,fitness,geracao\n";
+	}
+
+	void escreverPopulacao(ofstream &arquivo, const Populacao &populacao, int geracao)
+	{
+		const vector<Individuo> individuos = populacao.getIndividuos();
+
+		for (const Individuo &individuo : individuos)
+		{
+			arquivo << fixed << setprecision(3)
+					<< individuo.getX() << ','
+					<< individuo.getY() << ','
+					<< individuo.getFitness() << ','
+					<< geracao << '\n';
+		}
 	}
 }
-}
 
-bool criarCSV(const string &nomeArquivo,
-			  const Populacao &populacao,
-			  int geracao)
+bool criarCSV(const string &nomeArquivo, const Populacao &populacao, int geracao)
 {
 	ofstream arquivo(nomeArquivo);
 	if (!arquivo.is_open())
@@ -42,9 +38,7 @@ bool criarCSV(const string &nomeArquivo,
 	return arquivo.good();
 }
 
-bool criarCSV(const string &nomeArquivo,
-			  const vector<Populacao> &populacoes,
-			  int primeiraGeracao)
+bool criarCSV(const string &nomeArquivo, const vector<Populacao> &populacoes, int primeiraGeracao)
 {
 	ofstream arquivo(nomeArquivo);
 	if (!arquivo.is_open())
@@ -55,10 +49,28 @@ bool criarCSV(const string &nomeArquivo,
 	escreverCabecalho(arquivo);
 	for (size_t indice = 0; indice < populacoes.size(); ++indice)
 	{
-		escreverPopulacao(arquivo,
-						  populacoes[indice],
-						  primeiraGeracao + static_cast<int>(indice));
+		escreverPopulacao(arquivo, populacoes[indice], primeiraGeracao + static_cast<int>(indice));
 	}
 
+	return arquivo.good();
+}
+
+bool adicionarGeracaoCSV(const string &nomeArquivo, const Populacao &populacao, int geracao)
+{
+	ifstream arquivoExistente(nomeArquivo);
+	const bool arquivoVazio = !arquivoExistente.good() || arquivoExistente.peek() == ifstream::traits_type::eof();
+
+	ofstream arquivo(nomeArquivo, ios::app);
+	if (!arquivo.is_open())
+	{
+		return false;
+	}
+
+	if (arquivoVazio)
+	{
+		escreverCabecalho(arquivo);
+	}
+
+	escreverPopulacao(arquivo, populacao, geracao);
 	return arquivo.good();
 }
