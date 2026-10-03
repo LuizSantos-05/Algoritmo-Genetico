@@ -26,6 +26,10 @@ void exibirPopulacao(const Populacao &populacao)
 
 void exibirGeracao(const Populacao &populacao, int geracao)
 {
+    if (geracao > 0)
+    {
+        cout << "Fitness médio da população: " << populacao.getFitnessMedio() << endl;
+    }
     cout << "Geracao " << geracao << ":" << endl;
     exibirPopulacao(populacao);
     cout << endl;
@@ -70,6 +74,7 @@ int main()
             cout << "Encontrado a melhor população possível. Encerrando o algoritmo." << endl;
             break;
         }
+        populacao.calcularFitnessMedio();
         populacao.novaGeracao(i);
     }
     return 0;
