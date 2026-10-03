@@ -19,6 +19,11 @@ int Populacao::getTamanho() const
     return _tamanho;
 }
 
+double Populacao::getFitnessMedio() const
+{
+    return _fitnessMedio;
+}   
+
 int Populacao::getElitismo() const
 {
     return _elitismo;
@@ -121,4 +126,15 @@ bool Populacao::avaliarMelhorPopulacao(const Populacao &populacao)
         }
     }
     return true; // Todos os indivíduos são o melhor possível
+}
+
+void Populacao::calcularFitnessMedio()
+{
+    double somaFitness = 0.0;
+    for (const Individuo &individuo : _individuos)
+    {
+        double fitnessMedio = individuo.getFitness() / _tamanho;
+        somaFitness += fitnessMedio;
+    }
+    _fitnessMedio = somaFitness;
 }

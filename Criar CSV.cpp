@@ -7,12 +7,12 @@ namespace
 {
 	void escreverCabecalho(ofstream &arquivo)
 	{
-		arquivo << "cromossomo_x,cromossomo_y,fitness,geracao\n";
+		arquivo << "cromossomo_x,cromossomo_y,fitness,geracao,fitness_medio\n";
 	}
 
 	void escreverPopulacao(ofstream &arquivo, const Populacao &populacao, int geracao)
 	{
-		const vector<Individuo> individuos = populacao.getIndividuos();
+		const vector<Individuo> &individuos = populacao.getIndividuos();
 
 		for (const Individuo &individuo : individuos)
 		{
@@ -20,8 +20,12 @@ namespace
 					<< individuo.getX() << ','
 					<< individuo.getY() << ','
 					<< individuo.getFitness() << ','
-					<< geracao << '\n';
+					<< geracao << ",\n";
 		}
+
+		arquivo << ",,," << geracao << ','
+				<< fixed << setprecision(3)
+				<< populacao.getFitnessMedio() << '\n';
 	}
 }
 
