@@ -2,9 +2,9 @@
 
 Individuo::Individuo()
 {
-    // inicializa os cromossomos com valores aleatórios entre 0 e 15
-    _x = (rand() % 150) / 10.0;
-    _y = (rand() % 150) / 10.0;
+    // inicializa os cromossomos com valores aleatórios entre -15 e 15
+    _x = (rand() % 300) / 10.0 - 15.0;
+    _y = (rand() % 300) / 10.0 - 15.0;
 
     // calcula o fitness do indivíduo
     _fitness = calcularFitness(_x, _y);
@@ -162,10 +162,12 @@ Individuo Individuo::cruzamentoElitista(Populacao &populacao)
 
         // Declaração do indivíduo filho
         Individuo filho(novoX, novoY);
-        populacao.decrementarElitismoBool(); // Decrementa o valor de elitismo para a próxima geração
-        populacao.decrementarElitismo();     // Decrementa o valor de elitismo para a próxima geração
-        populacao.decrementarElitismoBool(); // Decrementa novamente para considerar os dois melhores indivíduos da elite
-        populacao.decrementarElitismo();     // Decrementa novamente para considerar os dois melhores indivíduos da elite
+        
+        for (int i = 0; i < 2; i++)
+        {
+            populacao.decrementarElitismoBool(); // Decrementa o valor de elitismo para a próxima geração
+            populacao.decrementarElitismo();     // Decrementa o valor de elitismo para a próxima geração
+        }
 
         return filho;
     }
