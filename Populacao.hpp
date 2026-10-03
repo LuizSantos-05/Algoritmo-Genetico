@@ -22,7 +22,8 @@ public:
     vector<Individuo> &getIndividuos();             // retorna o vetor de indivíduos
     const vector<Individuo> &getIndividuos() const; // retorna o vetor de indivíduos (constante)
 
-    void inicializarPopulacao();          // inclui os individuos no vetor da população
-    void novaGeracao(int numeroOperacao); // gera uma nova geração de indivíduos
-    void ordenarElitismo();
+    void inicializarPopulacao();                             // inclui os individuos no vetor da população
+    void novaGeracao(int numeroOperacao);                    // gera uma nova geração de indivíduos
+    void ordenarElitismo();                                  // ordena os indivíduos da população de acordo com o fitness, mantendo os melhores indivíduos no início do vetor
+    bool avaliarMelhorPopulacao(const Populacao &populacao); // avalia se a população atual contém os melhores indivíduos possíveis (fitness = 905)
 };

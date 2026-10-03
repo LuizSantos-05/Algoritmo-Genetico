@@ -51,6 +51,11 @@ int main()
 
     for (int i = 0; i < nMaxGeracoes; i++)
     {
+        if (populacao.getTamanho() <= 0)
+        {
+            cout << "A população atingiu o tamanho mínimo. Encerrando o algoritmo." << endl;
+            break;
+        }
         exibirGeracao(populacao, i);
         if (i > 0)
         {
@@ -59,6 +64,11 @@ int main()
         else
         {
             criarCSV(arquivoCSV, populacao, i);
+        }
+        if (populacao.avaliarMelhorPopulacao(populacao))
+        {
+            cout << "Encontrado a melhor população possível. Encerrando o algoritmo." << endl;
+            break;
         }
         populacao.novaGeracao(i);
     }
