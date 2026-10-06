@@ -8,6 +8,7 @@
 using namespace std;
 
 string arquivoCSV = "geracao_0.csv";
+string arquivoSVG = "fitness_medio.svg";
 
 void exibirIndividuo(const Individuo &individuo)
 {
@@ -77,5 +78,8 @@ int main()
         populacao.calcularFitnessMedio();
         populacao.novaGeracao(i);
     }
+
+    criarGraficoFitness(arquivoCSV, arquivoSVG);
+
     return 0;
 }

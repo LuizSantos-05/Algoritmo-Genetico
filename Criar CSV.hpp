@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+
 using namespace std;
 
 // Cria ou substitui o arquivo CSV com os indivíduos de uma geração.
@@ -15,3 +16,6 @@ bool criarCSV(const string &nomeArquivo, const vector<Populacao> &populacoes, in
 
 // Adiciona uma nova geração ao final de um arquivo CSV existente.
 bool adicionarGeracaoCSV(const string &nomeArquivo, const Populacao &populacao, int geracao);
+
+// Cria um gráfico SVG com a evolução do fitness médio por geração.
+bool criarGraficoFitness(const string &nomeArquivoCSV, const string &nomeArquivoSVG);
